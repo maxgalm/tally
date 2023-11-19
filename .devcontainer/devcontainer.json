@@ -1,0 +1,33 @@
+{
+   "name": "tally-devcontainer-${localEnv:USER}-${localWorkspaceFolderBasename}",
+   "build": {
+      "dockerfile": "Dockerfile",
+      "context": ".",
+      "args": {
+         "USERNAME": "${localEnv:USER}",
+      }
+   },
+   "workspaceFolder": "/workspace",
+   "workspaceMount": "src=${localWorkspaceFolder},dst=${containerWorkspaceFolder},type=bind,consistency=cached",
+   "runArgs": [
+      "--name",
+      "tally-devcontainer-${localEnv:USER}-${localWorkspaceFolderBasename}",
+      "-u",
+      "${localEnv:USER}",
+   ],
+   "postAttachCommand": ".devcontainer/on_container_start.sh",
+   "customizations": {
+      "vscode": {
+         "settings": {
+            "terminal.integrated.shell.linux": "/usr/bin/zsh"
+         },
+         "extensions": [
+            "streetsidesoftware.code-spell-checker",
+            "ms-python.python",
+            "mkhl.shfmt",
+            "shardulm94.trailing-spaces",
+            "foxundermoon.shell-format"
+         ]
+      }
+   }
+}
