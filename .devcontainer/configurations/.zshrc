@@ -163,6 +163,8 @@ zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 ### Fix slowness of pastes
 
+echo "${WORKSPACE_FOLDER}"
+
 # Source user defined aliases if present
 if [[ -f "${WORKSPACE_FOLDER}/.user_aliases" ]]; then
   source "${WORKSPACE_FOLDER}/.user_aliases"
