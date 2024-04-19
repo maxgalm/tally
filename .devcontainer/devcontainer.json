@@ -1,0 +1,60 @@
+{
+   "name": "tally-devcontainer-${localEnv:USER}-${localWorkspaceFolderBasename}",
+   "build": {
+      "dockerfile": "Dockerfile",
+      "context": ".",
+      "args": {
+         "USERNAME": "${localEnv:USER}"
+      }
+   },
+   "remoteEnv": {
+      "WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
+   },
+   "workspaceFolder": "/workspace",
+   "workspaceMount": "src=${localWorkspaceFolder},dst=${containerWorkspaceFolder},type=bind,consistency=cached",
+   "runArgs": [
+      "--name",
+      "tally-devcontainer-${localEnv:USER}-${localWorkspaceFolderBasename}",
+      "-u",
+      "${localEnv:USER}"
+   ],
+   "initializeCommand": "${localWorkspaceFolder}/.devcontainer/initializeCommand.sh",
+   "postAttachCommand": ".devcontainer/postAttachCommand.sh",
+   "mounts": [
+      // DevContainer mounts are structured according to the basedir-spec.
+      // See https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+      //
+      // $XDG_CONFIG_HOME defines the base directory relative to which user-specific configuration files should be stored.
+      "source=tally-config-${localEnv:USER},target=/home/dockeruser/.config,type=volume",
+      // $XDG_CACHE_HOME defines the base directory relative to which user-specific non-essential data files should be stored.
+      "source=tally-cache-${localEnv:USER},target=/home/dockeruser/.cache,type=volume",
+      // $XDG_DATA_HOME defines the base directory relative to which user-specific data files should be stored.
+      "source=tally-data-${localEnv:USER},target=/home/dockeruser/.local/share,type=volume",
+      // Credentials (not supported by XDG, see https://wiki.archlinux.org/title/XDG_Base_Directory)
+      "source=${localEnv:HOME}/.netrc,target=/home/dockeruser/.netrc,type=bind",
+      // Git
+      "source=${localEnv:HOME}/.gitconfig,target=/home/dockeruser/.gitconfig,type=bind",
+      "source=${localEnv:HOME}/.git-credentials,target=/home/dockeruser/.git-credentials,type=bind",
+      // SSH keys (not supported by XDG, see https://wiki.archlinux.org/title/XDG_Base_Directory)
+      "source=${localEnv:HOME}/.ssh/,target=/home/dockeruser/.ssh,type=bind",
+      //
+      // Other mounts (that we can not redirect to XDG_ mounts)
+      // Avoid vscode extension reinstall (Downside: subsequent rebuilds will not reacquire any extensions from devcontainer.json.)
+      // Reference: https://code.visualstudio.com/remote/advancedcontainers/avoid-extension-reinstalls
+      "source=vscode-server-${localEnv:USER},target=/home/dockeruser/.vscode-server/extensions,type=volume"
+   ],
+   "customizations": {
+      "vscode": {
+         "settings": {
+            "terminal.integrated.shell.linux": "/usr/bin/zsh"
+         },
+         "extensions": [
+            "streetsidesoftware.code-spell-checker",
+            "ms-python.python",
+            "mkhl.shfmt",
+            "shardulm94.trailing-spaces",
+            "foxundermoon.shell-format"
+         ]
+      }
+   }
+}
