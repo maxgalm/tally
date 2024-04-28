@@ -12,9 +12,14 @@ class DrinkSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "description", "price"]
 
 class TallySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tally
+        fields = ["id", "person", "drink", "created_at"]
+
+class NestedTallySerializer(serializers.ModelSerializer):
     person = PersonSerializer(read_only=True)
     drink = DrinkSerializer(read_only=True)
 
     class Meta:
         model = Tally
-        fields = ["id", "person", "drink"]
+        fields = ["id", "person", "drink", "created_at"]
