@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name="Person",
+            name="Drink",
             fields=[
                 (
                     "id",
@@ -21,9 +21,9 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("first_name", models.CharField(max_length=50)),
-                ("last_name", models.CharField(max_length=50)),
-                ("date_joined", models.DateTimeField(auto_now_add=True)),
+                ("name", models.CharField(max_length=50)),
+                ("description", models.CharField(max_length=128)),
+                ("price", models.DecimalField(decimal_places=2, max_digits=6)),
             ],
         ),
     ]
