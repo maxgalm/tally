@@ -1,4 +1,5 @@
 from django.db import models
+from drinks.models import Drink
 
 # Create your models here.
 class Person(models.Model):
@@ -8,14 +9,6 @@ class Person(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
-
-class Drink(models.Model):
-    name = models.CharField(max_length=50)
-    description = models.CharField(max_length=128)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
-
-    def __str__(self):
-        return self.name
 
 class Tally(models.Model):
     person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name="tally")
