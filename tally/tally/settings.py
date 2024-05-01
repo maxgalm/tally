@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "api",
     "drinks",
+    "items",
 ]
 
 MIDDLEWARE = [
