@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 
 from drinks.models import Drink
-from api.models import Person
 
 User = settings.AUTH_USER_MODEL
 
