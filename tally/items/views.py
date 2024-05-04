@@ -9,7 +9,6 @@ class TallyItemListCreateAPIView(
     UserQuerySetMixin,
     generics.ListCreateAPIView):
     queryset = TallyItem.objects.all()
-    allow_staff_view = True
 
     def get_serializer_class(self):
         if self.request.method == "GET":
@@ -21,7 +20,6 @@ class TallyItemDetailAPIView(
     generics.RetrieveAPIView):
     queryset = TallyItem.objects.all()
     serializer_class = NestedTallyItemSerializer
-    allow_staff_view = True
 
 class TallyItemUpdateAPIView(
     UserQuerySetMixin,
