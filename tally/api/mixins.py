@@ -9,9 +9,22 @@ class DrinkEditorPermissionMixin():
     ]
 
 
+class DrinkQuerySetMixin():
+    public_field = "public"
+    allow_staff_view = False
+
+    def get_queryset(self, *args, **kwargs):
+        user = self.request.user
+        qs = super().get_queryset(*args, **kwargs)
+        if self.allow_staff_view and user.is_staff:
+            return qs
+        return qs.filter(public=True)
+
+
 class UserQuerySetMixin():
     user_field = 'user'
     allow_staff_view = False
+
     def get_queryset(self, *args, **kwargs):
         user = self.request.user
         lookup_data = {}
