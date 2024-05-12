@@ -9,7 +9,7 @@ class TallyItemSerializer(serializers.ModelSerializer):
         model = TallyItem
         fields = [
             "id",
-            "user",
+            "debtor",
             "drink",
             "created_at"
         ]
@@ -19,9 +19,17 @@ class NestedTallyItemSerializer(serializers.ModelSerializer):
         view_name="items-detail",
         lookup_field="pk"
     )
-    owner = UserPublicSerializer(source="user", read_only=True)
+    debtor = UserPublicSerializer(read_only=True)
     drink = DrinkSerializer(read_only=True)
+    created_by = UserPublicSerializer(read_only=True)
 
     class Meta:
         model = TallyItem
-        fields = ["id", "url", "owner", "drink", "created_at"]
+        fields = [
+            "id",
+            "url",
+            "debtor",
+            "drink",
+            "created_at",
+            "created_by"
+        ]

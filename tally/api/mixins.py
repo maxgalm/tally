@@ -22,7 +22,7 @@ class DrinkQuerySetMixin():
 
 
 class UserQuerySetMixin():
-    user_field = 'user'
+    user_field = 'debtor'
     allow_staff_view = False
 
     def get_queryset(self, *args, **kwargs):

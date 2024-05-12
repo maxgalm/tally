@@ -15,6 +15,9 @@ class TallyItemListCreateAPIView(
             return NestedTallyItemSerializer
         return TallyItemSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
 class TallyItemDetailAPIView(
     UserQuerySetMixin,
     generics.RetrieveAPIView):
