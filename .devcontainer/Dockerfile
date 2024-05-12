@@ -30,6 +30,9 @@ RUN python3 -m pip --no-cache-dir install --upgrade pip && \
     pip3 install --no-cache-dir \
     black==23.11.0 \
     django==5.0.4 \
+    djangorestframework==3.15.1 \
+    djangorestframework-simplejwt==5.3.1 \
+    environs==11.0.0 \
     isort==5.12.0 \
     flask==3.0.0 \
     pipdeptree==2.2.1 \
