@@ -44,6 +44,9 @@ RUN python3 -m pip --no-cache-dir install --upgrade pip && \
     yamllint==1.33.0 \
     && pipdeptree -w fail
 
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash - && \
+    sudo apt-get install -y nodejs
+
 ARG DOCKER_USER=dockeruser
 ARG DOCKER_UID=1000
 ARG DOCKER_GID=${DOCKER_UID}
