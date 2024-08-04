@@ -12,3 +12,5 @@ DOCKER_BUILDKIT=1 docker build \
     --tag tally-devenv:latest \
     -f .devcontainer/Dockerfile \
     ${BASE_FOLDER}/.devcontainer
+
+echo "bla"

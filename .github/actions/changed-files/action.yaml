@@ -5,6 +5,8 @@ outputs:
     value: ${{ steps.get-head-sha.outputs.head-sha }}
   base-sha:
     value: ${{ steps.get-base-sha.outputs.base-sha }}
+  changed-files:
+    value: ${{ steps.get-changed-files.outputs.changed-files }}
 
 runs:
   using: composite
@@ -32,9 +34,9 @@ runs:
       name: "Get base sha for git diff"
       shell: bash
       run: |
-        echo "::group::Get head SHA"
+        echo "::group::Get base SHA"
         BASE_SHA=""
-        if [[ "${{ github.events.pull_request.base.sha }}" != "" ]]; then
+        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
           BASE_SHA=$(git -C ${GITHUB_WORKSPACE} merge-base origin/${{ github.event.repository.default_branch }} ${{ steps.get-head-sha.outputs.head-sha }})
         elif [[ "${{ github.event.before }}" != "" ]]; then
           BASE_SHA=${{ github.event.before }}
@@ -64,8 +66,6 @@ runs:
         git -C ${GITHUB_WORKSPACE} fetch --depth=1 origin ${{ steps.get-base-sha.outputs.base-sha }}
 
         echo "::group::Determine changed files"
-        CHANGED_FILES_FILE=${GITHUB_WORKSPACE}/changed-files.txt
-        git -C ${GITHUB_WORKSPACE} diff --name-only ${{ steps.get-base-sha.outputs.base-sha }}..${{ steps.get-head-sha.outputs.head-sha }} > $CHANGED_FILES_FILE
-        echo "changed-files=$CHANGED_FILES_FILE" >> "$GITHUB_OUTPUT"
-        echo "changed files: "
-        cat $CHANGED_FILES_FILE
+        CHANGED_FILES=$(git -C ${GITHUB_WORKSPACE} diff --name-only ${{ steps.get-base-sha.outputs.base-sha }}..${{ steps.get-head-sha.outputs.head-sha }})
+        echo "changed files: $CHANGED_FILES"
+        echo "changed-files=$CHANGED_FILES" >> "$GITHUB_OUTPUT"
